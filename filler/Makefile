@@ -6,11 +6,11 @@
 #    By: solefir <solefir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/22 17:51:25 by solefir           #+#    #+#              #
-#    Updated: 2019/05/22 17:58:06 by solefir          ###   ########.fr        #
+#    Updated: 2019/05/22 18:39:09 by solefir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = bot
+NAME = solefir.filler
 
 CC = gcc -Wall -Wextra -Werror -I filler.h
 
