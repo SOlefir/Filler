@@ -9,18 +9,23 @@ int     main(void)
 	int     str;
 	char    *line;
 
-	str = 22;
+	str = 0;
 	i = open("return.txt", O_RDWR);
-	write(1, "2 8\n", 4);
-	while (--str >= 0 && (get_next_line(0, &line)) > 0)
-	{    
+	write(1, "8 2\n", 4);
+	while (++str <= 22 && (get_next_line(0, &line)) > 0)
+	{	
 		ft_putendl_fd(line, i);
-		write(1, "2 8\n", 4);
+		if (str == 21)
+			write(1, "8 2\n", 4);
+	}
+	str = 0;
+	while (++str <= 22 && (get_next_line(0, &line)) > 0)
+	{	
+		ft_putendl_fd(line, i);
+		if (str == 21)
+			write(1, "8 2\n", 4);
 	}
 	while (--str >= 0 && (get_next_line(0, &line)) > 0)
-	{
 		ft_putendl_fd(line, i);
-		write(1, "2 8\n", 4);
-	}
 	return (0);
 }
