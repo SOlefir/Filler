@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/25 20:05:16 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/25 22:38:58 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,37 @@ static void		save_token(char *line, t_f *filler)
 {
 	int	i;
 	int j;
-	int	size[2];
+	int	size[2] = {0, 0};
 
 	i = 0;
 	j = 0;
-	while (line[0] == 'P' && line[++i] != ':')
+	printf("\nsave token:\n{%d}{%d}\n", size[0], size[1]);
+	while (line[i] != ' ')
+		i++;
+	while (line[++i] != ':')
 	{
 		if (line[i] >= '0' && line[i] <= '9')
 			size[j] = (size[j] * 10) + line[i] - '0';
-		else
+		if (line[i] == ' ')
 			j++;
+		printf("[%d][%d]\n", j, size[j]);
 	}
-	i = size[1];
+	filler->token = (char**)malloc(sizeof(char*) * size[0]);
+	i = size[1] + 1;
+	printf("%d\n", i);
 	filler->token[j] = (char*)malloc(i);
 	filler->token[j][i] = '\0';
-	while (--i >= 0)
-		filler->token[j][i] = line[i];
+	while (j >= 0)
+	{
+		if (--i >= 0)
+			filler->token[j][i] = line[i];
+		else
+		{	
+			j++;
+			i = size[1];
+			printf("%s\n", filler->token[j]);
+		}
+	}
 }
 
 static void		save_map(char *line, t_f *filler)
@@ -47,14 +62,14 @@ static void		save_map(char *line, t_f *filler)
 	printf("\nsave_map:\n {j = %d i = %d}\n", j, i);
 	filler->map[j] = (char*)malloc(i);
 	printf("line:%s\n", line);
-	//printf("line[i] == [%c]\n", line[i]);
+	printf("line[i] == [%c]\n", line[i]);
 	while (--i >= 0)
 	{
 		filler->map[j][i] = line[--s];
 		printf("line[s] == [%c]\n map[i] = [%c]\n", line[s], filler->map[j][i]);
 		printf("(%d)(%d)\n", i, s);
 	}
-	printf("map[%s]\n", filler->map[j]);
+	printf("[%d]map[%p]\n", j, filler->map[j]);
 }
 
 static void		save_map_size(char *line, t_f *filler)
@@ -86,7 +101,7 @@ int				main(void)
 	printf("line:%s\n", line);
 	if (filler == NULL)
 	{
-		filler = (t_f*)ft_memalloc(sizeof(t_f*));
+		filler = (t_f*)ft_memalloc(sizeof(t_f));
 		filler->enemy = (line[10] == '1') ? 'O' : 'X';
 		printf("enemy:[%c]\n", filler->enemy);
 		free(line);
@@ -104,8 +119,8 @@ int				main(void)
 		{
 			printf("line:%s\n", line);
 			save_map(line, filler);
-			printf("%d", j);
-			printf("[%s]\n", filler->map[j]);
+			printf("%d\n", j);
+			printf("main map[%p]\n", filler->map[j]);
 			j++;
 		}
 		else if (line[0] == 'P')
