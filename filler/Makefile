@@ -6,17 +6,18 @@
 #    By: solefir <solefir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/22 17:51:25 by solefir           #+#    #+#              #
-#    Updated: 2019/05/22 18:39:09 by solefir          ###   ########.fr        #
+#    Updated: 2019/05/25 18:46:35 by solefir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = solefir.filler
+NAME = solefir
 
-CC = gcc -Wall -Wextra -Werror -I filler.h
+CC = gcc -Wall -Wextra -Werror -I ./filler.h -I ./GNL/get_next_line.h
 
-SRC = ../GNL/libft/ft_bzero.c ../GNL/libft/ft_strlen.c ../GNL/libft/ft_strcpy.c\
+SRC = ../GNL/libft/ft_bzero.c ../GNL/libft/ft_strlen.c ../GNL/libft/ft_strncpy.c\
 	../GNL/libft/ft_memalloc.c ../GNL/libft/ft_strsub.c ../GNL/libft/ft_strdup.c\
-	../GNL/libft/ft_strjoin.c ../GNL/libft/ft_strchr.c ./filler.c
+	../GNL/libft/ft_strjoin.c ../GNL/libft/ft_strchr.c ./save_data.c ./filler.c\
+	../GNL/get_next_line.c
 
 OBJ = $(SRC:.c=.o)
 
