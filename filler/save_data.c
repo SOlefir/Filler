@@ -6,13 +6,13 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/25 22:38:58 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/26 22:46:27 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
-static void		save_token(char *line, t_f *filler)
+static void		save_token(char **line, t_f *filler)
 {
 	int	i;
 	int j;
@@ -20,56 +20,59 @@ static void		save_token(char *line, t_f *filler)
 
 	i = 0;
 	j = 0;
-	printf("\nsave token:\n{%d}{%d}\n", size[0], size[1]);
-	while (line[i] != ' ')
+	printf("sdfa1\n");
+	while ((*line)[i] != ' ')
 		i++;
-	while (line[++i] != ':')
+	while ((*line)[++i] != ':')
 	{
-		if (line[i] >= '0' && line[i] <= '9')
-			size[j] = (size[j] * 10) + line[i] - '0';
-		if (line[i] == ' ')
+		if ((*line)[i] >= '0' && (*line)[i] <= '9')
+			size[j] = (size[j] * 10) + (*line)[i] - '0';
+		if ((*line)[i] == ' ')
 			j++;
-		printf("[%d][%d]\n", j, size[j]);
 	}
+	printf("sdfa2\n");
+	//free(*line);
+	j = 0;
+	i = 0;
 	filler->token = (char**)malloc(sizeof(char*) * size[0]);
-	i = size[1] + 1;
-	printf("%d\n", i);
-	filler->token[j] = (char*)malloc(i);
-	filler->token[j][i] = '\0';
-	while (j >= 0)
+	filler->token[j] = (char*)malloc(size[1]);
+	while (get_next_line(3, line) > 0 && j <= size[0])
 	{
-		if (--i >= 0)
-			filler->token[j][i] = line[i];
-		else
-		{	
-			j++;
-			i = size[1];
-			printf("%s\n", filler->token[j]);
+		while (i < size[1])
+		{
+			filler->token[j][i] = (*line)[i];
+			i++;
 		}
+		if (i == size[1])
+		{	
+			filler->token[j][i] = '\0';
+			j++;
+			filler->token[j] = (char*)malloc(size[1]);
+			i = 0;
+		}
+		printf("-> %p \n", line);
+		printf("-> %p \n", *line);
+		//printf("[%s]\n", filler->token[j]);
+		//free(*line);
 	}
+	printf("\n_____________________________________\n");
 }
 
-static void		save_map(char *line, t_f *filler)
+static void		save_map(char **line, t_f *filler, int j)
 {
 	int	i;
-	int	j;
 	int	s;
 
-	s = ft_strlen(line) + 1;//22
-	j = filler->map_size[0];//15
-	i = filler->map_size[1] + 1;//17+1
-	printf("str_len %d\n", s);
-	printf("\nsave_map:\n {j = %d i = %d}\n", j, i);
-	filler->map[j] = (char*)malloc(i);
-	printf("line:%s\n", line);
-	printf("line[i] == [%c]\n", line[i]);
-	while (--i >= 0)
+	s = ft_strlen(*line);
+	i = 0;
+	filler->map[j] = (char*)malloc(filler->map_size[1] + 1);
+	s = s - filler->map_size[1];
+	while (i != filler->map_size[1])
 	{
-		filler->map[j][i] = line[--s];
-		printf("line[s] == [%c]\n map[i] = [%c]\n", line[s], filler->map[j][i]);
-		printf("(%d)(%d)\n", i, s);
+		filler->map[j][i] = (*line)[s];
+		s++;
+		i++;
 	}
-	printf("[%d]map[%p]\n", j, filler->map[j]);
 }
 
 static void		save_map_size(char *line, t_f *filler)
@@ -87,49 +90,49 @@ static void		save_map_size(char *line, t_f *filler)
 		else
 			j++;
 	}
+	printf("size: y[%d] x[%d]\n", filler->map_size[0], filler->map_size[1]);
+}
+
+static void		make_struct(t_f **filler, char **line, int i)
+{
+	*filler = (t_f*)ft_memalloc(sizeof(t_f));
+	(*filler)->enemy = (*line[10] == '1') ? 'O' : 'X';
+	free(*line);
+	get_next_line(i, line);
+	save_map_size(*line, *filler);
+	(*filler)->map = (char**)malloc((*filler)->map_size[0]);
 }
 
 int				main(void)
 {
 	char			*line;
 	int				j;
+	int				i;
 	static t_f		*filler = NULL;
 
-	j = open("return.txt", O_RDWR);
-	printf("fd:%d\n", j);
-	printf("gnl:%d\n", get_next_line(j, &line));
-	printf("line:%s\n", line);
+	line = NULL;
+	i = open("return.txt", O_RDONLY);
+	get_next_line(i, &line);
 	if (filler == NULL)
-	{
-		filler = (t_f*)ft_memalloc(sizeof(t_f));
-		filler->enemy = (line[10] == '1') ? 'O' : 'X';
-		printf("enemy:[%c]\n", filler->enemy);
-		free(line);
-		get_next_line(j, &line);
-		save_map_size(line, filler);
-		printf("size: y[%d] x[%d]\n", filler->map_size[0], filler->map_size[1]);
-		filler->map = (char**)malloc(filler->map_size[0]);
-	}
+		make_struct(&filler, &line, i);
 	free(line);
 	j = 0;
-	//printf("main map:\n");
-	while (get_next_line(3, &line) > 0 || j <= (filler->map_size[0] + 1))
+	printf("\nmap:\n");
+	while (get_next_line(i, &line) > 0)
 	{
-		if (line[0] != 'P' && line[0] > 32)
+		if (line[0] > 32 && j < filler->map_size[0])
 		{
-			printf("line:%s\n", line);
-			save_map(line, filler);
-			printf("%d\n", j);
-			printf("main map[%p]\n", filler->map[j]);
+			save_map(&line, filler, j);
+			printf("%s\n", filler->map[j]);
 			j++;
 		}
-		else if (line[0] == 'P')
-			save_token(line, filler);
-		free(line);
+		else if (j == filler->map_size[0])
+		{
+			//printf("sdfa\n");
+			save_token(&line, filler);
+		}
+		printf("sdfa44\n");
 	}
-	printf("token:\n");
-	printf("[%s]\n", filler->token[0]);
-	printf("[%s]\n", filler->token[1]);
-	//make_arr(filler);
+	//make_arr(filler);*/
 	return (0);
 }
