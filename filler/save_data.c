@@ -6,14 +6,14 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/27 19:56:57 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/28 18:52:32 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
 
-static void		save_size(char *line, int **size)
+static void		save_size(char *line, int *x, int *y)
 {
 	int	i;
 	int	j;
@@ -22,12 +22,13 @@ static void		save_size(char *line, int **size)
 	j = 0;
 	while (line[i] != ' ')
 		i++;
-	while (line[++i] != ':')
+	while (line[i] != ':')
 	{
-		if (line[i] >= '0' && line[i] <= '9')
-			(*size)[j] = ((*size)[j] * 10) + line[i] - '0';
-		else
-			j++;
+		i++;
+		while (line[i] >= '0' && line[i] <= '9')
+			*y = (*y * 10) + line[i++] - '0';
+		while (line[++i] >= '0' && line[i] <= '9')
+			*x = (*x * 10) + line[i] - '0';
 	}
 }
 
@@ -35,18 +36,22 @@ static void		save_token(char **line, t_f *filler)
 {
 	int	i;
 	int j;
-	int	*size;
+	int	x;
+	int y;
 
-	size = (int*)ft_memalloc(sizeof(int) * 2);
-	save_size(*line, &size);
+	x = 0;
+	y = 0;
+	save_size(*line, &x, &y);
 	free(*line);
 	j = 0;
 	i = 0;
-	filler->token = (char**)malloc(sizeof(char*) * size[0]);
-	while (get_next_line(3, line) > 0 && j < size[0])
+	printf("____\n\n");
+	printf("size token: {%d %d}\n", y, x);
+	filler->token = (char**)malloc(sizeof(char*) * y);
+	while (get_next_line(3, line) > 0 && j < y)
 	{
-		filler->token[j] = (char*)malloc(size[1]);
-		while (i < size[1])
+		filler->token[j] = (char*)malloc(x);
+		while (i < x)
 		{
 			filler->token[j][i] = (*line)[i];
 			i++;
@@ -56,7 +61,6 @@ static void		save_token(char **line, t_f *filler)
 		j++;
 		i = 0;
 	}
-	free(size);
 }
 
 static void		save_map(char *line, t_f *filler, int j)
@@ -66,9 +70,9 @@ static void		save_map(char *line, t_f *filler, int j)
 
 	s = ft_strlen(line);
 	i = 0;
-	filler->map[j] = (char*)malloc(filler->map_size[1] + 1);
-	s = s - filler->map_size[1];
-	while (i <= filler->map_size[1])
+	filler->map[j] = (char*)malloc(filler->map_size_x + 1);
+	s = s - filler->map_size_x;
+	while (i <= filler->map_size_x)
 	{
 		filler->map[j][i] = line[s];
 		s++;
@@ -80,12 +84,13 @@ static t_f		*make_struct(t_f *filler, char **line)
 {
 	filler = (t_f*)ft_memalloc(sizeof(t_f));
 	filler->enemy = (*line[10] == '1') ? 'O' : 'X';
+	printf("enemy: [ %c ]\n\n", filler->enemy);
 	free(*line);
 	get_next_line(3, line);
-	filler->map_size = (int*)ft_memalloc(sizeof(int) * 2);
-	save_size(*line, &filler->map_size);
+	save_size(*line, &filler->map_size_x, &filler->map_size_y);
+	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
 	free(*line);
-	filler->map = (char**)malloc(sizeof(char*) * filler->map_size[0]);
+	filler->map = (char**)malloc(sizeof(char*) * filler->map_size_y);
 	return (filler);
 }
 
@@ -96,14 +101,16 @@ int				main(void)
 	t_f				*filler;
 
 	line = NULL;
+	printf("____\n\n");
 	open("return.txt", O_RDONLY);
 	get_next_line(3, &line);
+	filler = NULL;
 	filler = make_struct(filler, &line);
 	j = -1;
 	printf("____\n");
 	while (get_next_line(3, &line) > 0)
 	{
-		if (line[0] > 32 && ++j != filler->map_size[0])
+		if (line[0] > ' ' && ++j != filler->map_size_y)
 		{
 			save_map(line, filler, j);
 			printf("%s\n", filler->map[j]);
@@ -113,7 +120,10 @@ int				main(void)
 		else
 			free(line);
 	}
-	do_step(filler);
-	printf("%s\n%s\n", filler->token[0], filler->token[1]);
+	//do_step(filler);
+
+	printf("\n%s\n%s\n", filler->token[0], filler->token[1]);
+	printf("____\n");
+	distance(filler);
 	return (0);
 }
