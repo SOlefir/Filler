@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/28 20:03:35 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/29 14:48:57 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,56 +20,72 @@ static void		make_2d_arr(t_f *filler)
 
 	i = 0;
 	j = 0;
-	//printf("--> %p\n", filler->distance);
 	filler->distance = (int**)malloc(sizeof(int*) * filler->map_size_y);
-	//printf("--> %p\n", filler->distance);
 	while (++j <= filler->map_size_y)
-	{
 		filler->distance[j] = (int*)malloc(sizeof(int) * filler->map_size_x);
-	//	printf("-> %p\n", filler->distance[j]);
-	}
 }
+
+/* find far sit for 'O' && find closer sit for 'X'
+ НУЖНО ПЕРЕДЕЛАТЬ! Искать точки и потом сравнивать их, чтобы запоминать только те, что имеют между собой наименьший разрыв
+ 2 цикла: для х и для о, сохранять в переменную и сравнивать их между собой в этом цикле*/
 
 static void		find_sit(t_f *filler)
 {
-	int	x;
-	int	y;
-	char c;
+	int		x;
+	int		y;
+	int		first;
 
 	x = 0;
 	y = 0;
-	c = (filler->enemy == 'X') ? 'O' : 'X';
-	printf("%c\n", c);
+	first = 0;
 	while (y < filler->map_size_y)
 	{
 		printf("%c\n", filler->enemy);
 		while (x < filler->map_size_x)
 		{	
-			if (filler->map[y][x] == filler->enemy)
+			printf("%c\n", filler->map[y][x]);
+			if (filler->map[y][x] == 'O' || filler->map[y][x] == 'o')
 			{
-				filler->sit_enemy_y = y;
-				filler->sit_enemy_x = x;
+				if (filler->enemy == 'O')
+				{
+					filler->sit_enemy_y = y;	
+					filler->sit_enemy_x = x;
+				}
+				else
+				{
+					filler->my_sit_x = x;
+					filler->my_sit_y = y;
+				}
 			}
-			if (filler->map[y][x] == c)
+			if (filler->map[y][x] == 'X' || filler->map[y][x] == 'x')
 			{
-				filler->my_sit_x = x;
-				filler->my_sit_y = y;
+				if (filler->enemy == 'X')
+				{
+					filler->sit_enemy_y = y;	
+					filler->sit_enemy_x = x;
+				}
+				else
+				{
+					filler->my_sit_x = x;
+					filler->my_sit_y = y;
+				}
 			}
-			if (filler->sit_enemy_y == y && filler->my_sit_y == y)
-			{	
-				y = filler->map_size_y - 1;
-				x = filler->map_size_x - 1;
+			if (filler->sit_enemy_x > 0 && filler->my_sit_x > 0)
+			{
+				first = (filler->my_sit_x - filler->sit_enemy_x) +
+						(filler->my_sit_y - filler->sit_enemy_y);
+				first *= (first < 0) ? -1 : 1; // сделать булевую фнкц котора будет сравнивать
+
 			}
 			x++;
 		}
-		x = 0;
 		y++;
+		x = 0;
 	}
-
 	printf("my\n=| %d - %d |=\n", filler->my_sit_y, filler->my_sit_x);
 	printf("%c\n", filler->map[filler->my_sit_y][filler->my_sit_x]);
 	printf("enemy\n=| %d - %d |=\n", filler->sit_enemy_y, filler->sit_enemy_x);
-	printf("%c\n", filler->map[filler->sit_enemy_x][filler->sit_enemy_x]);
+	printf("%c\n", filler->map[filler->sit_enemy_y][filler->sit_enemy_x]);
 }
 
 void			distance(t_f *filler)
@@ -81,4 +97,5 @@ void			distance(t_f *filler)
 	j = 0;
 	make_2d_arr(filler);
 	find_sit(filler);
+
 }
