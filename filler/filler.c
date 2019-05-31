@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/30 20:47:59 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/31 16:30:38 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,6 @@ static void		make_2d_arr(t_f *filler)
 		filler->distance[j] = (int*)ft_memalloc(sizeof(int) * filler->map_size_x);
 }
 
-static void		enemy_is_one(t_f *filler)
-{
-	int	y;
-	int	x;
-
-	y = -1;
-	while (++y < filler->map_size_y)
-	{
-		x = -1;
-		while (++x < filler->map_size_x)
-		{
-			if (filler->map[y][x] == filler->enemy ||
-				filler->map[y][x] == (filler->enemy - 32))
-			{	
-				filler->distance[y][x] = 1;
-			}
-			printf("%d", filler->distance[y][x]);
-		}
-		printf("\n");
-	}
-}
-
 static void		calculate_distance(t_f *filler, int y, int x)
 {
 	int	i;
@@ -54,13 +32,15 @@ static void		calculate_distance(t_f *filler, int y, int x)
 	int min;
 
 	j = -1;
-	while (++j < y)
+	while (++j < filler->map_size_y)
 	{
 		i = -1;
-		while (++i < x)
+		while (++i < filler->map_size_x)
 		{
-			min = ((x - i) + (y - j));
-			if (filler->distance[j][i] == 0)
+			min = (x - i) < 0 ? (x - i) * -1 : (x - i);
+			min += (y - j) < 0 ? (y - j) * -1 : (y - j);
+			if (filler->distance[j][i] == 0 && 
+			(filler->map[j][i] != filler->enemy || filler->map[j][i] != (filler->enemy + 32)))
 				filler->distance[j][i] = min;
 			else
 				filler->distance[j][i] = (min <= filler->distance[j][i]) 
@@ -74,28 +54,34 @@ void			distance(t_f *filler)
 {
 	int	x;
 	int	y;
+	int	i;
 
 	y = -1;
+	i = 0;
 	make_2d_arr(filler);
-	enemy_is_one(filler);
 	printf("\n");
+	printf("     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16\n");
+	printf("   ----------------------------------------------------\n");
 	while (++y < filler->map_size_y)
 	{
 		x = -1;
 		while (++x < filler->map_size_x)
 		{
-			if (filler->distance[y][x] == 1)
+			if (filler->map[y][x] == 'X' || filler->map[y][x] == 'x')
 				calculate_distance(filler, y, x);
 		}
 	}
 	y = -1;
 	while (++y < filler->map_size_y)
 	{
+		i <= 9 ? printf(" %d|", i) : printf("%d|", i);
+		i++;
 		x = -1;
 		while (++x < filler->map_size_x)
 		{
 			//printf("{%d | %d}\n", y, x);
-			printf("%d ", filler->distance[y][x]);
+			filler->distance[y][x] > 9 ? printf(" %d", filler->distance[y][x])
+										: printf("  %d", filler->distance[y][x]);
 		}
 		printf("\n");
 	}

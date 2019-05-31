@@ -122,3 +122,32 @@ static void		find_sit(t_f *filler)
 	printf("enemy\n=| %d - %d |=\n", filler->sit_enemy_y, filler->sit_enemy_x);
 	printf("%c\n", filler->map[filler->sit_enemy_y][filler->sit_enemy_x]);
 }
+
+
+static void		enemy_is_one(t_f *filler)
+{
+	int	y;
+	int	x;
+	int i;
+
+	i = 0;
+	y = -1;
+	printf("   0|1|2|3|4|5|6|7|8|9|0|1|2|3|4|5|6|\n");
+	printf("   ----------------------------------\n");
+	while (++y < filler->map_size_y)
+	{
+		x = -1;
+		i <= 9 ? printf(" %d|", i) : printf("%d|", i);
+		i++;
+		while (++x < filler->map_size_x)
+		{
+			if (filler->map[y][x] == filler->enemy ||
+				filler->map[y][x] == (filler->enemy + 32))
+			{	
+				filler->distance[y][x] = 1;
+			}
+			printf("%d|", filler->distance[y][x]);
+		}
+		printf("\n");
+	}
+}
