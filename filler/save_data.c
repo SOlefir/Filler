@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/31 16:35:24 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/31 16:44:00 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,9 @@ int				main(void)
 		else
 			free(line);
 	}
-	//do_step(filler);
-
 	printf("\n%s\n%s\n", filler->token[0], filler->token[1]);
 	printf("____\n");
 	distance(filler);
+	//do_step(filler);
 	return (0);
 }
