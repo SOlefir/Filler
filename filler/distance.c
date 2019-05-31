@@ -6,12 +6,13 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/31 16:56:36 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/31 18:45:45 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
+
 
 static void		make_2d_arr(t_f *filler)
 {
@@ -37,10 +38,9 @@ static void		calculate_distance(t_f *filler, int y, int x)
 		i = -1;
 		while (++i < filler->map_size_x)
 		{
-			min = (x - i) < 0 ? (x - i) * -1 : (x - i);
-			min += (y - j) < 0 ? (y - j) * -1 : (y - j);
+			min = ABS(x - i) + ABS(y - j);
 			if (filler->distance[j][i] == 0 && 
-			(filler->map[j][i] != filler->enemy || filler->map[j][i] != (filler->enemy + 32)))
+			(filler->map[j][i] != filler->enemy && filler->map[j][i] != (filler->enemy + 32)))
 				filler->distance[j][i] = min;
 			else
 				filler->distance[j][i] = (min < filler->distance[j][i]) 
