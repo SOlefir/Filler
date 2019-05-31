@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/28 18:52:32 by solefir          ###   ########.fr       */
+/*   Updated: 2019/05/31 16:35:24 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,13 @@ static void		save_map(char *line, t_f *filler, int j)
 static t_f		*make_struct(t_f *filler, char **line)
 {
 	filler = (t_f*)ft_memalloc(sizeof(t_f));
-	filler->enemy = (*line[10] == '1') ? 'O' : 'X';
-	printf("enemy: [ %c ]\n\n", filler->enemy);
-	free(*line);
-	get_next_line(3, line);
+	if ((*line)[0] == '$')
+	{
+		filler->enemy = (*line[10] == '1') ? 'O' : 'X';
+		printf("enemy: [ %c ]\n\n", filler->enemy);
+		free(*line);
+		get_next_line(3, line);
+	}
 	save_size(*line, &filler->map_size_x, &filler->map_size_y);
 	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
 	free(*line);
