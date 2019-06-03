@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/31 18:45:45 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/03 14:45:25 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void		calculate_distance(t_f *filler, int y, int x)
 			else
 				filler->distance[j][i] = (min < filler->distance[j][i]) 
 										? min : filler->distance[j][i];
-			//printf("%d", filler->distance[j][i]);
 		}
 	}
 }

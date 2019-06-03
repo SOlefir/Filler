@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/05/31 16:44:00 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/03 17:40:57 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,28 @@ static void		save_size(char *line, int *x, int *y)
 
 static void		save_token(char **line, t_f *filler)
 {
-	int	i;
-	int j;
 	int	x;
 	int y;
 
 	x = 0;
 	y = 0;
-	save_size(*line, &x, &y);
+	save_size(*line, &filler->token_size_x, &filler->token_size_y);
 	free(*line);
-	j = 0;
-	i = 0;
 	printf("____\n\n");
-	printf("size token: {%d %d}\n", y, x);
-	filler->token = (char**)malloc(sizeof(char*) * y);
-	while (get_next_line(3, line) > 0 && j < y)
+	printf("size token: {%d %d}\n", filler->token_size_y, filler->token_size_x);
+	filler->token = (char**)malloc(sizeof(char*) * filler->token_size_y);
+	while (get_next_line(3, line) > 0 && y < filler->token_size_y)
 	{
-		filler->token[j] = (char*)malloc(x);
-		while (i < x)
+		filler->token[y] = (char*)malloc(filler->token_size_x);
+		while (x < filler->token_size_x)
 		{
-			filler->token[j][i] = (*line)[i];
-			i++;
+			filler->token[y][x] = (*line)[x];
+			x++;
 		}
-		filler->token[j][i] = '\0';
+		filler->token[y][x] = '\0';
 		free(*line);
-		j++;
-		i = 0;
+		y++;
+		x = 0;
 	}
 }
 
@@ -126,6 +122,6 @@ int				main(void)
 	printf("\n%s\n%s\n", filler->token[0], filler->token[1]);
 	printf("____\n");
 	distance(filler);
-	//do_step(filler);
+	decision(filler);
 	return (0);
 }
