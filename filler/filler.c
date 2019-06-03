@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/03 18:29:49 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/03 18:32:36 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void		decision(t_f *filler)
             if (!crossing_border(filler, y, x) &&
                 crossing_my_char(filler, y, x) &&
                 !(crossing_enemy_char(filler, y, x)))
-                do_step(filler);
+                //do_step(filler);
+                printf()
         }
     }
 }
