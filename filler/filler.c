@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/11 20:53:11 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/11 21:24:03 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,15 @@ void		decision(t_f *filler)
         while (++x < filler->map_size_x &&
         filler->map_size_x >= (filler->token_size_x + x))
         {
-            if (!crossing_border(filler, y, x) &&
-                (cross_my_char += crossing_my_char(filler, y, x)) == 1 &&
+            if ((cross_my_char = crossing_my_char(filler, y, x)) == 1 &&
+                !crossing_border(filler, y, x) &&
                 !(crossing_enemy_char(filler, y, x)))
+            {
                 //do_step(filler);
+                cross_my_char++;
                 printf(RED "%c", filler->map[y][x]);
+               // printf("\n%d\n", cross_my_char);
+            }
             else
                 printf(RESET "%c", filler->map[y][x]);
         }
