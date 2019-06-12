@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/11 21:24:03 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/12 18:44:27 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 #define RED   "\x1B[31m"
 #define RESET "\x1B[0m"
 
-/*int             do_step(t_f *filler)
+int             do_step(t_f *filler, int y, int x)
 {
-    (void)filler;
+    char s;
+    
+    s = filler->map[y][x];
+    return (0);
 }
-*/
+
 static _Bool    crossing_border(t_f *filler, int y, int x)
 {
     int     j;
@@ -91,14 +94,13 @@ void		decision(t_f *filler)
         while (++x < filler->map_size_x &&
         filler->map_size_x >= (filler->token_size_x + x))
         {
-            if ((cross_my_char = crossing_my_char(filler, y, x)) == 1 &&
+            if (cross_my_char <= 1 && crossing_my_char(filler, y, x) &&
                 !crossing_border(filler, y, x) &&
                 !(crossing_enemy_char(filler, y, x)))
             {
-                //do_step(filler);
+                do_step(filler, y, x);
                 cross_my_char++;
                 printf(RED "%c", filler->map[y][x]);
-               // printf("\n%d\n", cross_my_char);
             }
             else
                 printf(RESET "%c", filler->map[y][x]);

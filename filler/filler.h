@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:49:17 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/03 18:04:08 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/12 18:38:19 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef	struct s_f
 	char	my_step;
 }				t_f;
 
-void	do_step(t_f *filler);
+int		do_step(t_f *filler, int y, int x);
 void	decision(t_f *filler);
 void	distance(t_f *filler);
 
