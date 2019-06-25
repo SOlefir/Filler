@@ -6,13 +6,19 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/11 20:39:23 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/21 20:31:05 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
 
+int				min_distance_sum(t_f *filler, int y, int x)
+{
+	
+
+    return (0);
+}
 
 static void		make_2d_arr(t_f *filler)
 {
@@ -49,7 +55,7 @@ static void		calculate_distance(t_f *filler, int y, int x)
 	}
 }
 
-void			distance(t_f *filler)
+void			make_arr_distance(t_f *filler)
 {
 	int	x;
 	int	y;

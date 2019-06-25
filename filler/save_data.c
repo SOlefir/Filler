@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/03 17:40:57 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/21 20:35:33 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_f		*make_struct(t_f *filler, char **line)
 	filler = (t_f*)ft_memalloc(sizeof(t_f));
 	if ((*line)[0] == '$')
 	{
-		filler->enemy = (*line[10] == '1') ? 'O' : 'X';
+		filler->enemy = ((*line)[10] == '1') ? 'X' : 'O';
 		printf("enemy: [ %c ]\n\n", filler->enemy);
 		free(*line);
 		get_next_line(3, line);
@@ -121,7 +121,7 @@ int				main(void)
 	}
 	printf("\n%s\n%s\n", filler->token[0], filler->token[1]);
 	printf("____\n");
-	distance(filler);
+	make_arr_distance(filler);
 	decision(filler);
 	return (0);
 }

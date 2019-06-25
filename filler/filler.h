@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:49:17 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/12 18:38:19 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/21 19:38:25 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ typedef	struct s_f
 	int		token_size_y;
 	int		**distance;
 
+	int		min_distance;
+
 	char	enemy;
 	char	**map;
 	char	**token;
-	char	my_step;
+	char	*my_step;
 }				t_f;
 
-int		do_step(t_f *filler, int y, int x);
-void	decision(t_f *filler);
+void	make_arr_distance(t_f *filler);
 void	distance(t_f *filler);
+int		min_distance_sum(t_f *filler, int distance, int y, int x);
 
 #endif
