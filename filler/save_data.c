@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/21 20:35:33 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/26 21:18:30 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,10 @@ int				main(void)
 		else
 			free(line);
 	}
-	printf("\n%s\n%s\n", filler->token[0], filler->token[1]);
+	int	y = -1;
+	printf("\n");
+	while (++y < filler->token_size_y)
+		printf("%s\n", filler->token[y]);
 	printf("____\n");
 	make_arr_distance(filler);
 	decision(filler);

@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/21 20:30:45 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/26 21:27:46 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,31 @@
 #define RED   "\x1B[31m"
 #define RESET "\x1B[0m"
 
-static char		*do_step(t_f *filler, int y, int x) // дописать
+static void				min_distance_sum(t_f *filler, int y, int x)
 {
-	char	*str;
-	int		len_y;
-	int		len_x;
-	int		nbr
+	int	i;
+	int j;
+	int	sum;
 
-	len = 0;
-	nbr = y;
-	while ((nbr = nbr / 10) > 0)
-		len_y++;
-	nbr = x;
-	while ((nbr = nbr / 10) > 0)
-		len_x++;
-	str = (char *)malloc(len + 1);
-	str[len] = '\0';
-	while ((--len_y >= 0) || ((len_y <= 0) && (--len_x >= 0)))
+	j = -1;
+	sum = 0;
+	while (++j < filler->token_size_y)
 	{
-		str[len] = nbr < 0 ? 32 : '0' + (nbr % 10);
-		 = nbr / 10;
+		i = -1;
+		while (++i < filler->token_size_x)
+			if (filler->token[j][i] == '*')
+				sum += filler->distance[y + j][x + i];
 	}
-	
-	return (*str);
+	if (filler->min_distance_sum && sum < filler->min_distance_sum)
+		filler->min_distance_sum = sum;
+ 	if (sum > filler->min_distance_sum)
+	{
+		filler->my_step_y = y;
+		filler->my_step_x = x;
+	}
 }
-static _Bool    crossing_border(t_f *filler, int y, int x)
+
+static _Bool    crossing_border(t_f *filler, int y, int x) //нужно доработать, чтобы пересечением границы было только если '*'
 {
 	int     j;
 	int     i;
@@ -50,8 +50,9 @@ static _Bool    crossing_border(t_f *filler, int y, int x)
 		i = -1;
 		while (++i < filler->token_size_x)
 			if (filler->token[j][i] == '*' &&
-				(y + j) > filler->map_size_y && (x + i) > filler->map_size_x)
-				return (1);
+				(filler->map[y][i + x] == '\n' ||
+				filler->map[j + y] == NULL))
+					return (1);
 	}
 	return (0);
 }
@@ -107,10 +108,7 @@ void		decision(t_f *filler)
 {
 	int y;
 	int x;
-	int step;
-	int	min_distance;
-
-	step = min_distance_sum(filler, 0, 0);
+	
 	y = -1;
 	while (++y < filler->map_size_y &&
 	filler->map_size_y >= (filler->token_size_y + y))
@@ -119,14 +117,12 @@ void		decision(t_f *filler)
 		while (++x < filler->map_size_x &&
 		filler->map_size_x >= (filler->token_size_x + x))
 		{
-			min_distance = min_distance_sum(filler, y, x);
 			if (!crossing_border(filler, y, x) &&
 				crossing_my_char(filler, y, x) == 1 &&
 				!crossing_enemy_char(filler, y, x))
 			{
-				step = min_distance < step ? min_distance : step;
-				filler->my_step = do_step(filler, y, x);
 				printf(RED "%c", filler->map[y][x]);
+				min_distance_sum(filler, y, x);
 			}
 			else
 				printf(RESET "%c", filler->map[y][x]);

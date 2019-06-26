@@ -152,6 +152,36 @@ static void		enemy_is_one(t_f *filler)
 	}
 }
 
+tatic void		save_step(t_f *filler, int y, int x) // дописать
+{
+	int		len_y;
+	int		len_x;
+	int		nbr;
+
+	len_y = 1;
+	len_x = 1;
+	nbr = y;
+	//printf(" y = %d | x = %d \n", y, x);
+	if (filler->my_step != NULL)
+		free(filler->my_step);
+	while ((nbr = nbr / 10) > 0)
+		len_y++;
+	//printf(" len_y = %d \n", len_y);
+	nbr = x;
+	while ((nbr = nbr / 10) > 0)
+		len_x++;
+	len_x++;
+	//printf(" len_x = %d \n", len_x);
+	filler->my_step = (char *)malloc(len_y + len_x);
+	filler->my_step[len_y + len_x] = '\0';
+	while ((--len_y >= 0) || ((len_y <= 0) && (--len_x >= 0)))
+	{
+		filler->my_step[len_y + len_x] = y < 0 ? ' ' : (nbr % 10) + '0';
+		nbr = y > 0 ? y / 10 : x / 10;
+	}
+	//printf("{ %s }\n", filler->my_step);
+}
+
 
    0|1|2|3|4|5|6|7|8|9|0|1|2|3|4|5|6|
    ----------------------------------
