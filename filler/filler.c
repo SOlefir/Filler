@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/27 16:55:02 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/27 19:05:30 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,18 @@ static void				min_distance_sum(t_f *filler, int y, int x)
 			if (filler->token[j][i] == '*')
 				sum += filler->distance[y + j][x + i];
 	}
-	if (filler->min_distance_sum && sum < filler->min_distance_sum)
+	//printf("sum = %d\n", sum);
+	//printf("filler->sum = %d\n", filler->min_distance_sum);
+	filler->min_distance_sum = filler->min_distance_sum == 0 ? sum :
+								filler->min_distance_sum;
+	if (sum <= filler->min_distance_sum)
+	{
 		filler->min_distance_sum = sum;
- 	if (sum >= filler->min_distance_sum)
-		check_step(filler, y, x);
+		filler->my_step_x = x;
+		filler->my_step_y = y;
+	}
+//	printf("%d | %d\n", filler->my_step_y, filler->my_step_x);
+		//check_step(filler, y, x);
 }
 
 static _Bool    crossing_border(t_f *filler, int y, int x) //нужно доработать, чтобы пересечением границы было только если '*'
@@ -83,6 +91,7 @@ static int    crossing_my_char(t_f *filler, int y, int x)
 	crossing = 0;
 	my_char = (filler->enemy == 'X') ? 'O' : 'X';
 	j = -1;
+	//printf("-> %c <- \n", filler->enemy);
 	//printf(" | y = %d x = %d |\n ", y, x);
 	while (++j < filler->token_size_y)
 	{
@@ -126,8 +135,8 @@ void		decision(t_f *filler)
 		}
 		printf("\n");
 	}
-	printf("%d | %d\n", filler->my_step_y, filler->my_step_x);
-	//printf("\n");
+	printf("[ y = %d | x = %d ]\n", filler->my_step_y, filler->my_step_x);
+	printf("\n");
 	//print_map_and_step(filler);
 	printf("\n");
 }
