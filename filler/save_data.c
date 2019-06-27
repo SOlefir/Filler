@@ -6,12 +6,13 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/27 18:47:04 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/27 21:31:20 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
+#define FD 0
 
 static void		save_size(char *line, int *x, int *y)
 {
@@ -39,12 +40,14 @@ static void		save_token(char **line, t_f *filler)
 
 	x = 0;
 	y = 0;
+	filler->token_size_x = 0;
+	filler->token_size_y = 0;
 	save_size(*line, &filler->token_size_x, &filler->token_size_y);
 	free(*line);
-	printf("____\n\n");
-	printf("size token: {%d %d}\n", filler->token_size_y, filler->token_size_x);
+	//printf("____\n\n");
+	//printf("size token: {%d %d}\n", filler->token_size_y, filler->token_size_x);
 	filler->token = (char**)malloc(sizeof(char*) * filler->token_size_y);
-	while (get_next_line(3, line) > 0 && y < filler->token_size_y)
+	while (y < filler->token_size_y && get_next_line(FD, line) > 0)
 	{
 		filler->token[y] = (char*)malloc(filler->token_size_x);
 		while (x < filler->token_size_x)
@@ -82,12 +85,12 @@ static t_f		*make_struct(t_f *filler, char **line)
 	if ((*line)[0] == '$')
 	{
 		filler->enemy = ((*line)[10] == '1') ? 'X' : 'O';
-		printf("enemy: [ %c ]\n\n", filler->enemy);
+		//printf("enemy: [ %c ]\n\n", filler->enemy);
 		free(*line);
-		get_next_line(3, line);
+		get_next_line(FD, line);
 	}
 	save_size(*line, &filler->map_size_x, &filler->map_size_y);
-	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
+	//printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
 	free(*line);
 	filler->map = (char**)malloc(sizeof(char*) * filler->map_size_y);
 	return (filler);
@@ -100,31 +103,34 @@ int				main(void)
 	t_f				*filler;
 
 	line = NULL;
-	printf("____\n\n");
-	open("return.txt", O_RDONLY);
-	get_next_line(3, &line);
+	//printf("____\n\n");
+	// open("return.txt", O_RDONLY);
+	get_next_line(FD, &line);
 	filler = NULL;
 	filler = make_struct(filler, &line);
 	j = -1;
-	printf("____\n");
-	while (get_next_line(3, &line) > 0)
+//	printf("____\n");
+	while (get_next_line(FD, &line) > 0)
 	{
-		if (line[0] > ' ' && ++j != filler->map_size_y)
-		{
-			save_map(line, filler, j);
-			printf("%s\n", filler->map[j]);
+		if (j != -1) {
+			get_next_line(FD, &line);
 		}
-		else if (line[0] == 'P')
-			save_token(&line, filler);
-		else
-			free(line);
+		j = -1;
+		while (++j != filler->map_size_y)
+		{
+			get_next_line(FD, &line);
+			save_map(line, filler, j);
+//			printf("%s\n", filler->map[j]);
+		}
+		get_next_line(FD, &line);			
+		save_token(&line, filler);
+		make_arr_distance(filler);
+		decision(filler);
 	}
-	int	y = -1;
-	printf("\n");
-	while (++y < filler->token_size_y)
-		printf("%s\n", filler->token[y]);
-	printf("____\n");
-	make_arr_distance(filler);
-	decision(filler);
+//	int	y = -1;
+//	printf("\n");
+//	while (++y < filler->token_size_y)
+//		printf("%s\n", filler->token[y]);
+//	printf("____\n");
 	return (0);
 }
