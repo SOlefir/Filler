@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/26 21:27:46 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/27 16:55:02 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,8 @@ static void				min_distance_sum(t_f *filler, int y, int x)
 	}
 	if (filler->min_distance_sum && sum < filler->min_distance_sum)
 		filler->min_distance_sum = sum;
- 	if (sum > filler->min_distance_sum)
-	{
-		filler->my_step_y = y;
-		filler->my_step_x = x;
-	}
+ 	if (sum >= filler->min_distance_sum)
+		check_step(filler, y, x);
 }
 
 static _Bool    crossing_border(t_f *filler, int y, int x) //нужно доработать, чтобы пересечением границы было только если '*'
@@ -129,4 +126,8 @@ void		decision(t_f *filler)
 		}
 		printf("\n");
 	}
+	printf("%d | %d\n", filler->my_step_y, filler->my_step_x);
+	//printf("\n");
+	//print_map_and_step(filler);
+	printf("\n");
 }
