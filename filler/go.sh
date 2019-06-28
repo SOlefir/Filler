@@ -1,0 +1,1 @@
+../resources/filler_vm -f ../resources/maps/map00 -p1 ../filler/solefir.filler -p2 ../resources/players/abanlin.filler | less

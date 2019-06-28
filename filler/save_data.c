@@ -6,13 +6,13 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/27 21:31:20 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/28 20:26:47 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
-#define FD 0
+#define FD 3
 
 static void		save_size(char *line, int *x, int *y)
 {
@@ -104,7 +104,7 @@ int				main(void)
 
 	line = NULL;
 	//printf("____\n\n");
-	// open("return.txt", O_RDONLY);
+	open("return.txt", O_RDONLY);
 	get_next_line(FD, &line);
 	filler = NULL;
 	filler = make_struct(filler, &line);

@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/27 21:35:25 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/28 19:12:19 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,6 @@
 #define RED   "\x1B[31m"
 #define RESET "\x1B[0m"
 
-static void				min_distance_sum(t_f *filler, int y, int x)
-{
-	int	i;
-	int j;
-	int	sum;
-
-	j = -1;
-	sum = 0;
-	while (++j < filler->token_size_y)
-	{
-		i = -1;
-		while (++i < filler->token_size_x)
-			if (filler->token[j][i] == '*')
-				sum += filler->distance[y + j][x + i];
-	}
-	//printf("sum = %d\n", sum);
-	//printf("filler->sum = %d\n", filler->min_distance_sum);
-	filler->min_distance_sum = filler->min_distance_sum == 0 ? sum :
-								filler->min_distance_sum;
-	if (sum <= filler->min_distance_sum)
-	{
-		filler->min_distance_sum = sum;
-		filler->my_step_x = x;
-		filler->my_step_y = y;			
-		/*if (check_step(filler, y, x))
-			{
-				filler->my_step_x = x;
-				filler->my_step_y = y;
-			}*/
-	}
-//	printf("%d | %d\n", filler->my_step_y, filler->my_step_x);
-}
 
 static _Bool    crossing_border(t_f *filler, int y, int x) //нужно доработать, чтобы пересечением границы было только если '*'
 {
@@ -133,13 +101,13 @@ void		decision(t_f *filler)
 				crossing_my_char(filler, y, x) == 1 &&
 				!crossing_enemy_char(filler, y, x))
 			{
-				//printf(RED "%c", filler->map[y][x]);
-				min_distance_sum(filler, y, x);
+				printf(RED "%c", filler->map[y][x]);
+				chek_step(filler, y, x);
 			}
-	//		else
-				//printf(RESET "%c", filler->map[y][x]);
+			else
+				printf(RESET "%c", filler->map[y][x]);
 		}
-		//printf("\n");
+		printf("\n");
 	}
 	//printf("[ y = %d | x = %d ]\n", filler->my_step_y, filler->my_step_x);
 //	printf("\n");

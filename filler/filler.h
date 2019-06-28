@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:49:17 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/27 15:45:39 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/28 19:49:31 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef	struct s_f
 
 void	make_arr_distance(t_f *filler);
 void	decision(t_f *filler);
+void	chek_step(t_f *filler, int y, int x);
 void	print_map_and_step(t_f *filler);//
 
 #endif

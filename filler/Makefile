@@ -6,7 +6,7 @@
 #    By: solefir <solefir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/22 17:51:25 by solefir           #+#    #+#              #
-#    Updated: 2019/06/27 19:32:06 by solefir          ###   ########.fr        #
+#    Updated: 2019/06/28 19:50:14 by solefir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = ../GNL/libft/ft_bzero.c ../GNL/libft/ft_strlen.c ../GNL/libft/ft_strncpy.c
 	../GNL/libft/ft_strjoin.c ../GNL/libft/ft_strchr.c ../GNL/libft/ft_itoa.c\
 	../GNL/libft/ft_putnbr.c ../GNL/libft/ft_putchar.c\
 	../GNL/get_next_line.c\
-	./save_data.c ./distance.c ./filler.c
+	./save_data.c ./distance.c ./filler.c ./chek_step.c
 
 OBJ = $(SRC:.c=.o)
 
