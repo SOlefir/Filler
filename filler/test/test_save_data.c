@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_data.c                                        :+:      :+:    :+:   */
+/*   test_save_data.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/29 18:41:59 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/29 18:46:17 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
-#define FD 0
+#include <stdio.h> //
+#define FD 3
 
 static void		save_size(char *line, int *x, int *y)
 {
@@ -43,8 +44,8 @@ static void		save_token(char **line, t_f *filler)
 	filler->token_size_y = 0;
 	save_size(*line, &filler->token_size_x, &filler->token_size_y);
 	free(*line);
-
-
+	printf("____\n\n");
+	printf("size token: {%d %d}\n", filler->token_size_y, filler->token_size_x);
 	filler->token = (char**)malloc(sizeof(char*) * filler->token_size_y);
 	while (y < filler->token_size_y && get_next_line(FD, line) > 0)
 	{
@@ -84,10 +85,12 @@ static t_f		*make_struct(t_f *filler, char **line)
 	if ((*line)[0] == '$')
 	{
 		filler->enemy = ((*line)[10] == '1') ? 'X' : 'O';
+		printf("enemy: [ %c ]\n\n", filler->enemy);
 		free(*line);
 		get_next_line(FD, line);
 	}
 	save_size(*line, &filler->map_size_x, &filler->map_size_y);
+	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
 	free(*line);
 	filler->map = (char**)ft_memalloc(sizeof(char*) * filler->map_size_y);
 	return (filler);
@@ -100,11 +103,13 @@ int				main(void)
 	t_f				*filler;
 
 	line = NULL;
-//	open("return.txt", O_RDONLY);//
+	printf("____\n\n");
+	open("../return.txt", O_RDONLY);
 	get_next_line(FD, &line);
 	filler = NULL;
 	filler = make_struct(filler, &line);
 	j = -1;
+	printf("____\n");
 	while (get_next_line(FD, &line) > 0)
 	{
 		if (j != -1) {
@@ -115,11 +120,17 @@ int				main(void)
 		{
 			get_next_line(FD, &line);
 			save_map(line, filler, j);
+			printf("%s\n", filler->map[j]);
 		}
 		get_next_line(FD, &line);			
 		save_token(&line, filler);
 		make_arr_distance(filler);
 		decision(filler);
 	}
+	int	y = -1;
+	printf("\n");
+	while (++y < filler->token_size_y)
+		printf("%s\n", filler->token[y]);
+	printf("____\n");
 	return (0);
 }

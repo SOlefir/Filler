@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:49:17 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/29 17:15:04 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/29 17:24:43 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include "../GNL/get_next_line.h"
+#include "../../GNL/get_next_line.h"
 
 # define ABS(x) ((x < 0) ? (-(x)) : (x))
 

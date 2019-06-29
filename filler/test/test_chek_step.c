@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chek_step.c                                        :+:      :+:    :+:   */
+/*   test_chek_step.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 16:55:38 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/29 17:10:17 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/29 17:23:56 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "filler.h"
+#include <stdio.h> //
 
 static	_Bool	is_mediana(t_f *filler, int y)
 {
@@ -66,10 +67,7 @@ void				chek_step(t_f *filler, int y, int x)
 				filler->my_step_y = y;
 			}
 			else
-			{
 				min_distance_sum(filler, y, x);
-			}
-			
 		}
 	}
 }
