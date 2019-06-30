@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   distance.c                                         :+:      :+:    :+:   */
+/*   test_distance.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/29 17:14:59 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:50:03 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		make_2d_arr(t_f *filler)
 		filler->distance[j] = (int*)ft_memalloc(sizeof(int) * filler->map_size_x);
 }
 
-static void		calculate_distance(t_f *filler, int y, int x)
+static void		calculate_distance(t_f *filler, int y, int x) // добавить проверку на то в какой части карты я и враг. и увеличить вес этих ячеек
 {
 	int	i;
 	int	j;
@@ -37,7 +37,7 @@ static void		calculate_distance(t_f *filler, int y, int x)
 		i = -1;
 		while (++i < filler->map_size_x)
 		{
-			min = ABS(x - i) + ABS(y - j);
+			min = ABS(x - i) + ABS(y - j); // здесь проверку. ? mediane_map : min - 1
 			if (filler->distance[j][i] == 0 && 
 			(filler->map[j][i] != filler->enemy && filler->map[j][i] != (filler->enemy + 32)))
 				filler->distance[j][i] = min;

@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/29 18:39:27 by solefir          ###   ########.fr       */
+/*   Updated: 2019/06/30 17:39:13 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static	void	min_distance_sum(t_f *filler, int y, int x)
 			if (filler->token[j][i] == '*')
 				sum += filler->distance[y + j][x + i];
 	}
-	filler->min_distance_sum = filler->min_distance_sum == 0 ? sum :
-								filler->min_distance_sum;
+	if (filler->min_distance_sum == 0)
+		filler->min_distance_sum = sum;
 	if (sum <= filler->min_distance_sum)
 	{
-		printf("{y = %d | x = %d}\n%d\n", filler->my_step_y, filler->my_step_x, sum);
+		//printf("{y = %d | x = %d}\n%d\n", filler->my_step_y, filler->my_step_x, sum);
 		filler->min_distance_sum = sum;
 		filler->my_step_x = x;
 		filler->my_step_y = y;
@@ -64,7 +64,7 @@ static _Bool    crossing_enemy_char(t_f *filler, int y, int x)
 {
 	int     j;
 	int     i;
-	
+
 	j = -1;
 	while (++j < filler->token_size_y)
 	{
@@ -111,7 +111,7 @@ void		decision(t_f *filler)
 {
 	int y;
 	int x;
-	
+
 	y = -1;
 	//printf("map{y = %d | x = %d}\n", filler->map_size_y, filler->map_size_x);
 	//printf("tok{y = %d | x = %d}\n", filler->token_size_y, filler->token_size_x);
@@ -138,5 +138,4 @@ void		decision(t_f *filler)
 	ft_putchar(' ');
 	ft_putnbr(filler->my_step_x);
 	ft_putchar('\n');
-
 }
