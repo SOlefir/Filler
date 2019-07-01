@@ -6,23 +6,13 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/30 17:37:27 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/01 17:30:50 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 #include <stdio.h> //
 #define FD 3
-
-static	void			free_map_and_token_data(t_f* filler)
-{
-	ft_masmemdel(filler->map, (size_t)filler->map_size_y);
-	filler->map_size_x = 0;
-	filler->map_size_y = 0;
-	ft_masmemdel(filler->token, (size_t)filler->token_size_y);
-	filler->token_size_x = 0;
-	filler->token_size_y = 0;
-}
 
 static void		save_size(char *line, int *x, int *y)
 {
@@ -31,6 +21,8 @@ static void		save_size(char *line, int *x, int *y)
 
 	i = 0;
 	j = 0;
+	*x = 0;
+	*y = 0;
 	while (line[i] != ' ')
 		i++;
 	while (line[i] != ':')
@@ -50,8 +42,6 @@ static void		save_token(char **line, t_f *filler)
 
 	x = 0;
 	y = -1;
-	filler->token_size_x = 0;
-	filler->token_size_y = 0;
 	save_size(*line, &filler->token_size_x, &filler->token_size_y);
 	free(*line);
 	printf("____\n\n");
@@ -74,21 +64,21 @@ static void		save_map(char **line, t_f *filler)
 	int	s;
 	int	len_line;
 
-	filler->map_size_x = 0;
-	filler->map_size_y = 0;
 	save_size(*line, &filler->map_size_x, &filler->map_size_y);
 	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
 	free(*line);
 	get_next_line(FD, line);
 	free(*line);
-	filler->map = (char**)ft_memalloc(sizeof(char*) * filler->map_size_y);
+	if (filler->map == NULL)
+		filler->map = (char**)ft_memalloc(sizeof(char*) * filler->map_size_y);
 	len_line = ft_strlen(*line) - filler->map_size_x;
 	j = -1;
 	while (++j < filler->map_size_y && get_next_line(FD, line) > 0)
 	{
 		i = -1;
 		s = len_line - 1;
-		filler->map[j] = (char*)malloc(filler->map_size_x + 1);
+		if (filler->map[j] == NULL)
+			filler->map[j] = (char*)malloc(filler->map_size_x + 1);
 		while (++i <= filler->map_size_x)
 			filler->map[j][i] = (*line)[++s];
 		printf("%s\n", filler->map[j]);
@@ -123,9 +113,7 @@ int				main(void)
 
 		make_arr_distance(filler);
 		decision(filler);
-		free_map_and_token_data(filler);
-		ft_masmemdel(filler->distance, (size_t)filler->map_size_y);
+		ft_masmemdel((void***)&(filler->token), (size_t)filler->token_size_y);
 	}
-
 	return (0);
 }

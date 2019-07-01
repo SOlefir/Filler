@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/30 17:50:11 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/01 11:49:39 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static	void	min_distance_sum(t_f *filler, int y, int x)
 	}
 }
 
-static _Bool    crossing_border(t_f *filler, int y, int x) //нужно доработать, чтобы пересечением границы было только если '*'
+static _Bool    crossing_border(t_f *filler, int y, int x)
 {
 	int     j;
 	int     i;

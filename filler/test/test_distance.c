@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/30 17:50:03 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/01 17:30:14 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void			make_arr_distance(t_f *filler)
 
 	y = -1;
 	i = 0;
-	make_2d_arr(filler);
+	if (filler->distance == NULL)
+		make_2d_arr(filler);
 	printf("\n");
 	printf("     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16\n");
 	printf("   ----------------------------------------------------\n");
