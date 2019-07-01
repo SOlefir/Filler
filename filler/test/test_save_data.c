@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/01 17:30:50 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/01 17:52:29 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		save_token(char **line, t_f *filler)
 	x = 0;
 	y = -1;
 	save_size(*line, &filler->token_size_x, &filler->token_size_y);
-	free(*line);
+	ft_strdel(*line);
 	printf("____\n\n");
 	printf("size token: {%d %d}\n", filler->token_size_y, filler->token_size_x);
 	filler->token = (char**)malloc(sizeof(char*) * filler->token_size_y);
@@ -53,7 +53,7 @@ static void		save_token(char **line, t_f *filler)
 		filler->token[y] = (char*)malloc(filler->token_size_x);
 		while (++x <= filler->token_size_x)
 			filler->token[y][x] = (*line)[x];
-		free(*line);
+		ft_strdel(*line);
 	}
 }
 
@@ -66,9 +66,9 @@ static void		save_map(char **line, t_f *filler)
 
 	save_size(*line, &filler->map_size_x, &filler->map_size_y);
 	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
-	free(*line);
+	ft_strdel(*line);
 	get_next_line(FD, line);
-	free(*line);
+	ft_strdel(*line);
 	if (filler->map == NULL)
 		filler->map = (char**)ft_memalloc(sizeof(char*) * filler->map_size_y);
 	len_line = ft_strlen(*line) - filler->map_size_x;
@@ -82,7 +82,7 @@ static void		save_map(char **line, t_f *filler)
 		while (++i <= filler->map_size_x)
 			filler->map[j][i] = (*line)[++s];
 		printf("%s\n", filler->map[j]);
-		free(*line);
+		ft_strdel(*line);
 	}
 }
 
@@ -96,7 +96,7 @@ int				main(void)
 	open("../return.txt", O_RDONLY);
 	get_next_line(FD, &line);
 	filler->enemy = (line[10] == '1') ? 'X' : 'O';
-	free(line);
+	ft_strdel(line);
 	printf("enemy: [ %c ]\n\n", filler->enemy);
 	printf("____\n\n");
 	while (get_next_line(FD, &line) > 0)
