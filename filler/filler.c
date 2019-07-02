@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 16:40:27 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/01 11:49:39 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/02 14:44:48 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static _Bool    crossing_border(t_f *filler, int y, int x)
 		i = -1;
 		while (++i < filler->token_size_x)
 			if (filler->token[j][i] == '*' &&
-				(filler->map[y][i + x] == '\n' ||
-				filler->map[j + y] == NULL))
+				((i + x) >= filler->map_size_x ||
+				(j + y) >= filler->map_size_y))
 					return (1);
 	}
 	return (0);
@@ -105,12 +105,10 @@ void		decision(t_f *filler)
 	
 	y = -1;
 	filler->min_distance_sum = 0;
-	while (++y < filler->map_size_y &&
-			filler->map_size_y >= (filler->token_size_y + y))
+	while (++y < filler->map_size_y)
 	{
 		x = -1;
-		while (++x < filler->map_size_x &&
-		filler->map_size_x >= (filler->token_size_x + x))
+		while (++x < filler->map_size_x)
 		{
 			if (!crossing_border(filler, y, x) &&
 				crossing_my_char(filler, y, x) == 1 &&

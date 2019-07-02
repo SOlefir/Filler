@@ -55,6 +55,26 @@ static void		find_sit(t_f *filler)
 		y++;
 		x = 0;
 	}
+
+tatic	void	del_token(t_f *filler)
+{
+	int	i;
+
+	i = -1;
+	if (filler->token != NULL)
+	{
+		while (++i < filler->token_size_y)
+			if (filler->token[i] != NULL)
+			{		
+				free(filler->token[i]);
+				filler->token[i] = NULL;
+			}
+		free(filler->token);
+		filler->token = NULL;
+	}
+
+}
+
 	printf("my\n=| %d - %d |=\n", filler->my_sit_y, filler->my_sit_x);
 	printf("%c\n", filler->map[filler->my_sit_y][filler->my_sit_x]);
 	printf("enemy\n=| %d - %d |=\n", filler->sit_enemy_y, filler->sit_enemy_x);
@@ -152,7 +172,7 @@ static void		enemy_is_one(t_f *filler)
 	}
 }
 
-tatic void		save_step(t_f *filler, int y, int x) // дописать
+static void		save_step(t_f *filler, int y, int x) // дописать
 {
 	int		len_y;
 	int		len_x;
