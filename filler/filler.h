@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:49:17 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/03 15:24:15 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 16:38:57 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include "../GNL/get_next_line.h"
+#include "GNL/get_next_line.h"
 
-# define FD 3
+# define FD 0
 # define ABS(x) ((x < 0) ? (-(x)) : (x))
 
 typedef	struct s_f
