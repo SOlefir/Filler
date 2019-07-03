@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:49:17 by solefir           #+#    #+#             */
-/*   Updated: 2019/06/29 17:15:04 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 15:24:15 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include "../GNL/get_next_line.h"
 
+# define FD 3
 # define ABS(x) ((x < 0) ? (-(x)) : (x))
 
 typedef	struct s_f
@@ -36,9 +37,10 @@ typedef	struct s_f
 	char	**token;
 }				t_f;
 
-void	make_arr_distance(t_f *filler);
-void	decision(t_f *filler);
-void	chek_step(t_f *filler, int y, int x);
-void	print_map_and_step(t_f *filler);//
+void		save_token(char **line, t_f *filler);
+void		save_map(char **line, t_f *filler);
+void		make_arr_distance(t_f *filler);
+void		decision(t_f *filler);
+
 
 #endif

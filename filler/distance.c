@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/01 17:27:06 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 14:57:44 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 static void		make_2d_arr(t_f *filler)
 {
-	int	i;
 	int	j;
 
-	i = 0;
 	j = -1;
 	filler->distance = (int**)malloc(sizeof(int*) * filler->map_size_y);
 	while (++j < filler->map_size_y)
@@ -37,11 +35,11 @@ static void		calculate_distance(t_f *filler, int y, int x)
 		while (++i < filler->map_size_x)
 		{
 			min = ABS(x - i) + ABS(y - j);
-			if (filler->distance[j][i] == 0 && 
+			if (filler->distance[j][i] == 0 &&
 			(filler->map[j][i] != filler->enemy && filler->map[j][i] != (filler->enemy + 32)))
 				filler->distance[j][i] = min;
 			else
-				filler->distance[j][i] = (min < filler->distance[j][i]) 
+				filler->distance[j][i] = (min < filler->distance[j][i])
 										? min : filler->distance[j][i];
 		}
 	}

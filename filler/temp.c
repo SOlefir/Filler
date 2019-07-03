@@ -75,6 +75,8 @@ tatic	void	del_token(t_f *filler)
 
 }
 
+
+
 	printf("my\n=| %d - %d |=\n", filler->my_sit_y, filler->my_sit_x);
 	printf("%c\n", filler->map[filler->my_sit_y][filler->my_sit_x]);
 	printf("enemy\n=| %d - %d |=\n", filler->sit_enemy_y, filler->sit_enemy_x);

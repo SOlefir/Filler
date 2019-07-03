@@ -6,13 +6,30 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/01 17:52:29 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 15:29:51 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filler.h"
+#include "filler_test.h"
 #include <stdio.h> //
-#define FD 3
+
+static	void	del_token(t_f *filler)
+{
+	int	i;
+
+	i = -1;
+	if (filler->token != NULL)
+	{
+		while (++i < filler->token_size_y)
+			if (filler->token[i] != NULL)
+			{
+				free(filler->token[i]);
+				filler->token[i] = NULL;
+			}
+		free(filler->token);
+		filler->token = NULL;
+	}
+}
 
 static void		save_size(char *line, int *x, int *y)
 {
@@ -43,7 +60,7 @@ static void		save_token(char **line, t_f *filler)
 	x = 0;
 	y = -1;
 	save_size(*line, &filler->token_size_x, &filler->token_size_y);
-	ft_strdel(*line);
+	ft_strdel(line);
 	printf("____\n\n");
 	printf("size token: {%d %d}\n", filler->token_size_y, filler->token_size_x);
 	filler->token = (char**)malloc(sizeof(char*) * filler->token_size_y);
@@ -53,7 +70,7 @@ static void		save_token(char **line, t_f *filler)
 		filler->token[y] = (char*)malloc(filler->token_size_x);
 		while (++x <= filler->token_size_x)
 			filler->token[y][x] = (*line)[x];
-		ft_strdel(*line);
+		ft_strdel(line);
 	}
 }
 
@@ -64,25 +81,28 @@ static void		save_map(char **line, t_f *filler)
 	int	s;
 	int	len_line;
 
-	save_size(*line, &filler->map_size_x, &filler->map_size_y);
+	if (filler->map_size_x == 0 || filler->map_size_y == 0)
+		save_size(*line, &filler->map_size_x, &filler->map_size_y);
 	printf("size map: {%d %d}\n", filler->map_size_y, filler->map_size_x);
-	ft_strdel(*line);
+	ft_strdel(line);
 	get_next_line(FD, line);
-	ft_strdel(*line);
+	ft_strdel(line);
 	if (filler->map == NULL)
 		filler->map = (char**)ft_memalloc(sizeof(char*) * filler->map_size_y);
-	len_line = ft_strlen(*line) - filler->map_size_x;
 	j = -1;
+	len_line = 0;
 	while (++j < filler->map_size_y && get_next_line(FD, line) > 0)
 	{
 		i = -1;
+		len_line = (len_line == 0) ?
+					ft_strlen(*line) - filler->map_size_x : len_line;
 		s = len_line - 1;
 		if (filler->map[j] == NULL)
 			filler->map[j] = (char*)malloc(filler->map_size_x + 1);
-		while (++i <= filler->map_size_x)
+		while (++i < filler->map_size_x)
 			filler->map[j][i] = (*line)[++s];
 		printf("%s\n", filler->map[j]);
-		ft_strdel(*line);
+		del_token(filler);
 	}
 }
 
@@ -96,7 +116,7 @@ int				main(void)
 	open("../return.txt", O_RDONLY);
 	get_next_line(FD, &line);
 	filler->enemy = (line[10] == '1') ? 'X' : 'O';
-	ft_strdel(line);
+	ft_strdel(&line);
 	printf("enemy: [ %c ]\n\n", filler->enemy);
 	printf("____\n\n");
 	while (get_next_line(FD, &line) > 0)

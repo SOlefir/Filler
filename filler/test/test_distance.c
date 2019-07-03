@@ -6,19 +6,17 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/01 17:30:14 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 15:27:40 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filler.h"
+#include "filler_test.h"
 #include <stdio.h> //
 
 static void		make_2d_arr(t_f *filler)
 {
-	int	i;
 	int	j;
 
-	i = 0;
 	j = -1;
 	filler->distance = (int**)malloc(sizeof(int*) * filler->map_size_y);
 	while (++j < filler->map_size_y)
