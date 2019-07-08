@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 17:47:47 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/03 15:20:18 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 19:33:30 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ static void		save_size(char *line, int *x, int *y)
 		while (line[++i] >= '0' && line[i] <= '9')
 			*x = (*x * 10) + line[i] - '0';
 	}
+	ft_strdel(&line);
 }
 
-void		save_token(char **line, t_f *filler)
+void			save_token(char **line, t_f *filler)
 {
 	int	x;
 	int y;
 
 	y = -1;
 	save_size(*line, &filler->token_size_x, &filler->token_size_y);
-	ft_strdel(line);
 	filler->token = (char**)malloc(sizeof(char*) * filler->token_size_y);
 	while (++y < filler->token_size_y && get_next_line(FD, line) > 0)
 	{
@@ -52,7 +52,7 @@ void		save_token(char **line, t_f *filler)
 	}
 }
 
-void		save_map(char **line, t_f *filler)
+void			save_map(char **line, t_f *filler)
 {
 	int	i;
 	int	j;
@@ -61,7 +61,6 @@ void		save_map(char **line, t_f *filler)
 
 	if (filler->map_size_x == 0 || filler->map_size_y == 0)
 		save_size(*line, &filler->map_size_x, &filler->map_size_y);
-	ft_strdel(line);
 	get_next_line(FD, line);
 	ft_strdel(line);
 	if (filler->map == NULL)
@@ -77,10 +76,7 @@ void		save_map(char **line, t_f *filler)
 					ft_strlen(*line) - filler->map_size_x : len_line;
 		s = len_line - 1;
 		while (++i < filler->map_size_x)
-		{
 			filler->map[j][i] = (*line)[++s];
-			//s++;
-		}
 		ft_strdel(line);
 	}
 }

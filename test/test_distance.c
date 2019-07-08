@@ -6,7 +6,7 @@
 /*   By: solefir <solefir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:59:29 by solefir           #+#    #+#             */
-/*   Updated: 2019/07/03 15:27:40 by solefir          ###   ########.fr       */
+/*   Updated: 2019/07/03 20:12:07 by solefir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ static void		calculate_distance(t_f *filler, int y, int x) // добавить �
 			min = ABS(x - i) + ABS(y - j); // здесь проверку. ? mediane_map : min - 1
 			if (filler->distance[j][i] == 0 && 
 			(filler->map[j][i] != filler->enemy && filler->map[j][i] != (filler->enemy + 32)))
-				filler->distance[j][i] = min;
+			{
+				min = x < (filler->map_size_x) ? ABS(min - 1) : min;
+				filler->distance[j][i] = y < (filler->map_size_y / 2)
+										? ABS(min - 1) : min;
+			}
 			else
 				filler->distance[j][i] = (min < filler->distance[j][i]) 
 										? min : filler->distance[j][i];
